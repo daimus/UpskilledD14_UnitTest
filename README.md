@@ -22,5 +22,8 @@
 | /            | GET         |                                      | Bearer   | Jika berhasil login maka akan tampil response "Authenticated", jika tidak maka akan muncul error 403 |
 | /auth/signin | POST        | {<br/>"email": "",<br/>"password": ""<br/>} |          |                                                                                                      |
 
-
-## Problem 3 - Implementasi Unit Test ✅
+### Pengujian
+![jwt_auth.png](resource/jwt_auth.png)
+## Problem 3 - Implementasi Unit Test
+- ❔ Code coverage > 80%
+- ✅ Menerapkan mocking
