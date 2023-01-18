@@ -45,15 +45,16 @@ public class Response {
                 this.httpCode = 404;
             }
         }
+        // TODO: Set http code
         // Meta Handler
         Map<String, Object> meta = new HashMap<String, Object>();
-        meta.put("code", httpCode);
         if (this.errors != null){
             meta.put("errors", this.errors);
             if (this.httpCode < 400){
                 this.httpCode = 500;
             }
         }
+        meta.put("code", httpCode);
         response.put("meta", meta);
 
         return new ResponseEntity<Object>(response, HttpStatusCode.valueOf(httpCode));

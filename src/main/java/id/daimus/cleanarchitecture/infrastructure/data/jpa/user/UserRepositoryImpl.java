@@ -26,6 +26,17 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Optional<User> getUserByEmail(String email) {
+        Optional<UserEntity> userEntity = jpaUserRepository.findByEmail(email);
+        if (userEntity.isPresent()){
+            User user = new User();
+            BeanUtils.copyProperties(userEntity.get(), user);
+            return Optional.of(user);
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public User createUser(User user) {
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
