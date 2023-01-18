@@ -26,7 +26,6 @@ public class AuthenticationController {
     public ResponseEntity<Object> signIn(@RequestBody AuthRequest authRequest){
         log.info("GET /auth/signin called");
         Response response = new Response();
-        System.out.println(authRequest);
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())

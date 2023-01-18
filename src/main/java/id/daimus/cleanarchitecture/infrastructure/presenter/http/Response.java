@@ -22,16 +22,10 @@ public class Response {
     private int httpCode = 200;
 
     public Response(Object dataParam){
-        System.out.println(dataParam);
-        System.out.println(dataParam.getClass());
         this.data = dataParam;
     }
 
     public void setData(Object data) {
-        System.out.println(data);
-        System.out.println(data.getClass());
-        System.out.println(data.getClass().getName());
-
         this.data = data;
     }
 
