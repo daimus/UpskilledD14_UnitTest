@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +35,15 @@ public class AuthenticationController {
             response.setData(authenticateResponse);
             return response.getResponse();
         } catch (UsernameNotFoundException usernameNotFoundException) {
-            response.setHttpCode(400);
+            log.error("GET /v1/auth/login error: {}", usernameNotFoundException.getMessage());
+            response.setHttpCode(404);
             response.setErrors(usernameNotFoundException.getMessage());
+        } catch (BadCredentialsException badCredentialsException) {
+            log.error("GET /v1/auth/login error: {}", badCredentialsException.getMessage());
+            response.setHttpCode(401);
+            response.setErrors(badCredentialsException.getMessage());
         } catch (Exception e){
-            log.error("GET /v1/auth/login error: " + e.getMessage());
+            log.error("GET /v1/auth/login error: {}", e.getMessage());
             response.setErrors(e.getMessage());
         }
         return response.getResponse();
