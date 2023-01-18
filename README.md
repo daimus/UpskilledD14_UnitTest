@@ -16,3 +16,7 @@
 | /v1/auth/login | POST        | {<br/>"phone": "",<br/>"password": ""<br/>} |          |                                                                                                      |
 
 ### Pengujian
+
+![Pengujuan Kasus Berhasil](resource/jwt_auth_success.png)
+
+![Pengujian Kasus Gagal](resource/jwt_auth_failure.png)
