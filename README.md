@@ -27,3 +27,6 @@
 ## Problem 3 - Implementasi Unit Test
 - ❔ Code coverage > 80%
 - ✅ Menerapkan mocking
+
+### Pengujian
+![running_test.png](resource/running_test.png)
