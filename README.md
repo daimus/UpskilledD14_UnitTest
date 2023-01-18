@@ -1,32 +1,18 @@
-# Day 11 - Clean Architecture
+# Day 12 - Spring JWT
 
-## Problem 1 - Rewrite ✅
-![clean_architecture.png](resource/clean_architecture.png)
-1. **Presenter**/Input/Driving/Gateway merupakan bagian yang menangani komunikasi masuk ke aplikasi, dapat melakukan trigger ke use case tertentu.
-2. **Use Case**/Service/Interactor merupakan interface yang mengorkestrasi business logic
-3. **Entity**/Model adalah domain object yang bersifat technology-agnostic (tidak peduli dimana/dengan teknologi apa dia disimpan)
-4. **Repository**/Driven/External Interface meripakan interface yang menyimpan kontrak bagaimana entity didapatkan/dimanipulasi
-5. **Data**/Data Source merupakan adapter atau implementasi bagaimana data dikelola dengan teknologi tertentu
-## Problem 2 - Implementasi JWT ✅
-### Initial Email dan Password
+## Problem 1 - JWT Generatiom ✅
+### Initial Credentials
 
-| Email            | Password |
-|------------------|----------|
-| johndoe@mail.com | password |
-| janedoe@mail.com | password |
+| Email            | Phone         | Password |
+|------------------|---------------|----------|
+| johndoe@mail.com | 081234567890  | password |
+| janedoe@mail.com | 087773775774  | password |
 
 ### Endpoints
 
-| Endpoint     | HTTP Method | Request Body                         | Auth Type | Keterangan                                                                                           |
-|--------------|-------------|--------------------------------------|----------|------------------------------------------------------------------------------------------------------|
-| /            | GET         |                                      | Bearer   | Jika berhasil login maka akan tampil response "Authenticated", jika tidak maka akan muncul error 403 |
-| /auth/signin | POST        | {<br/>"email": "",<br/>"password": ""<br/>} |          |                                                                                                      |
+| Endpoint       | HTTP Method | Request Body                                | Auth Type | Keterangan                                                                                           |
+|----------------|-------------|---------------------------------------------|----------|------------------------------------------------------------------------------------------------------|
+| /              | GET         |                                             | Bearer   | Jika berhasil login maka akan tampil response "Authenticated", jika tidak maka akan muncul error 403 |
+| /v1/auth/login | POST        | {<br/>"phone": "",<br/>"password": ""<br/>} |          |                                                                                                      |
 
 ### Pengujian
-![jwt_auth.png](resource/jwt_auth.png)
-## Problem 3 - Implementasi Unit Test
-- ❔ Code coverage > 80%
-- ✅ Menerapkan mocking
-
-### Pengujian
-![running_test.png](resource/running_test.png)
