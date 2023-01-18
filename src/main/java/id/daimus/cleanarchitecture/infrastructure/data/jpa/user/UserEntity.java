@@ -1,8 +1,10 @@
 package id.daimus.cleanarchitecture.infrastructure.data.jpa.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
@@ -12,10 +14,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="users")
+@EqualsAndHashCode
 public class UserEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Long id;
+    @Column(name="email", unique = true)
+    @NotBlank(message = "email is mandatory")
     private String email;
+    @Column(name="password")
+    @NotBlank(message = "password is mandatory")
     private String password;
 }
