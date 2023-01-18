@@ -37,7 +37,17 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Object> createUser(@RequestBody User userEntity){
-        User user = createUserUseCase.createUser(userEntity);
-        return ResponseEntity.ok(user);
+        log.info("POST /users called");
+        Response response = new Response();
+        try {
+            User user = createUserUseCase.createUser(userEntity);
+            response.setData(user);
+            return response.getResponse();
+        } catch (Exception e){
+            log.error("GET /users error: " + e.getMessage());
+            response.setErrors(e.getMessage());
+            return response.getResponse();
+        }
+
     }
 }
