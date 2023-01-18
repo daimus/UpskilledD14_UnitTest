@@ -3,10 +3,10 @@
 ## Problem 1 - JWT Generatiom ✅
 ### Initial Credentials
 
-| Email            | Phone         | Password |
-|------------------|---------------|----------|
-| johndoe@mail.com | 081234567890  | password |
-| janedoe@mail.com | 087773775774  | password |
+| Phone         | Password |
+|---------------|----------|
+| 081234567890  | password |
+| 087773775774  | password |
 
 ### Endpoints
 
