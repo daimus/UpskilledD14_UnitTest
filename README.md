@@ -1,22 +1,23 @@
-# Day 12 - Spring JWT
+# Day 13 - Spring Boot Swagger
 
-## Problem 1 - JWT Generatiom ✅
-### Initial Credentials
-
-| Phone         | Password |
-|---------------|----------|
-| 081234567890  | password |
-| 087773775774  | password |
+## Problem 1 - Buat CRUD Product ✅
+### Product Entity
+- Long id
+- String name
+- String description
+- int stock
+- int price
 
 ### Endpoints
 
-| Endpoint       | HTTP Method | Request Body                                | Auth Type | Keterangan                                                                                           |
-|----------------|-------------|---------------------------------------------|----------|------------------------------------------------------------------------------------------------------|
-| /              | GET         |                                             | Bearer   | Jika berhasil login maka akan tampil response "Authenticated", jika tidak maka akan muncul error 403 |
-| /v1/auth/login | POST        | {<br/>"phone": "",<br/>"password": ""<br/>} |          |                                                                                                      |
+| Endpoint       | HTTP Method | Keterangan                      |
+|----------------|-------------|---------------------------------|
+| /products      | GET         | Get all products                |
+| /products/:id  | GET         | Get product with specific id    |
+| /products      | POST        | Create new product              |
+| /products/:id  | PATCH       | Update product with specific id |
+| /products/:id  | DELETE      | Delete product with specific id |
 
-### Pengujian
+## Problem 2 - Integrasi Swagger ✅
 
-![Pengujuan Kasus Berhasil](resource/jwt_auth_success.png)
-
-![Pengujian Kasus Gagal](resource/jwt_auth_failure.png)
+[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
