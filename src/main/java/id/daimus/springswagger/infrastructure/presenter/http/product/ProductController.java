@@ -3,6 +3,7 @@ package id.daimus.springswagger.infrastructure.presenter.http.product;
 import id.daimus.springswagger.application.product.entity.Product;
 import id.daimus.springswagger.application.product.usecase.*;
 import id.daimus.springswagger.infrastructure.presenter.http.Response;
+import id.daimus.springswagger.shared.exception.DataNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -11,11 +12,15 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,106 +38,84 @@ public class ProductController {
 
     @Operation(summary = "Find all products")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "200", description = "Successful operation"),
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
     @GetMapping
-    public ResponseEntity<Object> getAllProduct() {
+    public ResponseEntity<Object> getAllProduct() throws DataNotFoundException {
         log.info("GET /products called");
         Response response = new Response();
-        try {
-            List<Product> products = getAllProductUseCase.getAllProduct();
-            response.setData(products);
-        } catch (Exception e) {
-            log.error("GET /products error: {}", e.getMessage());
-            response.setErrors(e.getMessage());
-        }
+        response.setPath("/products");
+        List<Product> products = getAllProductUseCase.getAllProduct();
+        response.setData(products);
         return response.getResponse();
     }
     @Operation(summary = "Find product by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation"),
-            @ApiResponse(responseCode = "400", description = "Invalid Product Id supplied"),
-            @ApiResponse(responseCode = "404", description = "Product not found")
+            @ApiResponse(responseCode = "200", description = "Successful operation"),
+            @ApiResponse(responseCode = "400", description = "Invalid product id supplied"),
+            @ApiResponse(responseCode = "404", description = "Product with the id not found")
     })
     @Parameters(value = {
             @Parameter(in = ParameterIn.PATH, name = "id", description = "Product Id")
     })
     @GetMapping("{id}")
-    public ResponseEntity<Object> getProductById(@PathVariable Long id) {
+    public ResponseEntity<Object> getProductById(@PathVariable Long id) throws DataNotFoundException {
         log.info("GET /products/{} called", id.toString());
         Response response = new Response();
-        try {
-            Optional<Product> product = getProductByIdUseCase.getProductById(id);
-            response.setData(product);
-        } catch (Exception e) {
-            log.error("GET /products/{} error: {}", id.toString(), e.getMessage());
-            response.setErrors(e.getMessage());
-        }
+        Product product = getProductByIdUseCase.getProductById(id);
+        response.setData(product);
         return response.getResponse();
     }
 
     @Operation(summary = "Create new product")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "successful operation"),
-            @ApiResponse(responseCode = "400", description = "Invalid product supplied")
+            @ApiResponse(responseCode = "201", description = "Successful operation"),
+            @ApiResponse(responseCode = "400", description = "Invalid product id supplied"),
     })
     @PostMapping
-    public ResponseEntity<Object> createProduct(@RequestBody Product productParam) {
+    public ResponseEntity<Object> createProduct(@Valid @RequestBody Product productParam) {
         log.info("POST /products called");
         Response response = new Response();
-        try {
-            Product product = createProductUseCase.createProduct(productParam);
-            response.setData(product);
-            response.setHttpCode(201);
-        } catch (Exception e) {
-            log.error("POST /products error: {}", e.getMessage());
-            response.setErrors(e.getMessage());
-        }
+        Product product = createProductUseCase.createProduct(productParam);
+        response.setData(product);
+        response.setHttpCode(201);
         return response.getResponse();
     }
 
     @Operation(summary = "Update product by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation"),
-            @ApiResponse(responseCode = "400", description = "Invalid Product Id supplied"),
+            @ApiResponse(responseCode = "200", description = "Successful operation"),
+            @ApiResponse(responseCode = "400", description = "Invalid product id supplied"),
+            @ApiResponse(responseCode = "404", description = "Product with id not found"),
     })
     @Parameters(value = {
             @Parameter(in = ParameterIn.PATH, name = "id", description = "Product Id")
     })
     @PatchMapping("{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody Product productParam) {
+    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody Product productParam) throws DataNotFoundException {
         log.info("PATCH /products/{} called", id.toString());
         Response response = new Response();
-        try {
-            Product product = updateProductUseCase.updateProduct(id, productParam);
-            response.setData(product);
-        } catch (Exception e) {
-            log.error("PATCH /products/{} error: {}", id.toString(), e.getMessage());
-            response.setErrors(e.getMessage());
-        }
+        Product product = updateProductUseCase.updateProduct(id, productParam);
+        response.setData(product);
         return response.getResponse();
     }
 
     @Operation(summary = "Delete product by id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "successful operation"),
-            @ApiResponse(responseCode = "400", description = "Invalid Product Id supplied"),
+            @ApiResponse(responseCode = "204", description = "Successful operation"),
+            @ApiResponse(responseCode = "400", description = "Invalid product id supplied"),
+            @ApiResponse(responseCode = "404", description = "Product with the id not found"),
     })
     @Parameters(value = {
             @Parameter(in = ParameterIn.PATH, name = "id", description = "Product Id")
     })
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteProduct(@PathVariable Long id) throws DataNotFoundException {
         log.info("DELETE /products/{} called", id.toString());
         Response response = new Response();
-        try {
-            deleteProductUseCase.deleteProduct(id);
-            response.setHttpCode(204);
-        } catch (Exception e) {
-            log.error("DELETE /products/{} error: {}", id.toString(), e.getMessage());
-            response.setErrors(e.getMessage());
-        }
+        deleteProductUseCase.deleteProduct(id);
+        response.setHttpCode(204);
         return response.getResponse();
     }
 }

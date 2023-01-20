@@ -1,6 +1,7 @@
 package id.daimus.springswagger.application.product.repository;
 
 import id.daimus.springswagger.application.product.entity.Product;
+import id.daimus.springswagger.shared.exception.DataNotFoundException;
 
 import java.util.List;
 import java.util.Optional;

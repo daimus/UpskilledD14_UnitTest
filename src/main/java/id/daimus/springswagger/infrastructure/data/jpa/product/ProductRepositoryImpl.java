@@ -32,7 +32,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         Optional<ProductEntity> productEntity = jpaProductRepository.findById(id);
         if (productEntity.isPresent()){
             Product product = new Product();
-            BeanUtils.copyProperties(productEntity, product);
+            BeanUtils.copyProperties(productEntity.get(), product);
             return Optional.of(product);
         }
         return Optional.empty();
