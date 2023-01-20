@@ -18,6 +18,9 @@ public class Response {
     private Object data;
     private Object page;
     private Object errors;
+    private String error;
+    private String message;
+    private String path;
     private int httpCode = 200;
 
     public Response(Object dataParam){
@@ -26,6 +29,10 @@ public class Response {
 
     public void setData(Object data) {
         this.data = data;
+    }
+    public void setError(Exception e){
+        this.error = e.getClass().getSimpleName();
+        this.message = e.getMessage();
     }
 
     public ResponseEntity<Object> getResponse(){
@@ -38,7 +45,6 @@ public class Response {
                 this.httpCode = 404;
             }
         }
-        // TODO: Set http code
         // Meta Handler
         Map<String, Object> meta = new HashMap<String, Object>();
         if (this.errors != null){
@@ -48,6 +54,19 @@ public class Response {
             }
         }
         meta.put("code", httpCode);
+        meta.put("timestamp", System.currentTimeMillis());
+        if (this.error != null){
+            meta.put("error", this.error);
+            if (this.httpCode < 400){
+                this.httpCode = 500;
+            }
+        }
+        if (this.message != null){
+            meta.put("message", this.message);
+        }
+        if (this.path != null){
+            meta.put("path", this.path);
+        }
         response.put("meta", meta);
 
         return new ResponseEntity<Object>(response, HttpStatusCode.valueOf(httpCode));
