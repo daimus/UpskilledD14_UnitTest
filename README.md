@@ -20,4 +20,8 @@
 
 ## Problem 2 - Integrasi Swagger ✅
 
+### Swagger UI
 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+
+### Demo
+[http://103.30.194.137:8081/swagger-ui.html](http://103.30.194.137:8081/swagger-ui.html)
