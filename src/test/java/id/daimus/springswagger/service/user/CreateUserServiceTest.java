@@ -28,7 +28,7 @@ public class CreateUserServiceTest {
         void CreateUser_ValidInput_True() {
             int id = 1;
             // Given
-            User user = new User((long) id, "budi@mail.com", "password");
+            User user = new User((long) id, "budi@mail.com", "080000000000", "password");
             when(userRepository.createUser(user)).thenReturn(user);
             // When
             User expectedUser = createUserService.createUser(user);
